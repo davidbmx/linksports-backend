@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 class FirebaseAuthentication(authentication.BaseAuthentication):
     
     def authenticate(self, request):
+        print(1)
         auth_header = request.META.get('HTTP_AUTHORIZATION')
         if not auth_header:
             return None
@@ -28,7 +29,6 @@ class FirebaseAuthentication(authentication.BaseAuthentication):
         except Exception as e:
             print(e)
             raise exceptions.AuthenticationFailed('Invalid token')
-            pass
 
         if not id_token or not decoded_token:
             return None
@@ -40,7 +40,9 @@ class FirebaseAuthentication(authentication.BaseAuthentication):
               raise exceptions.AuthenticationFailed('User does not have permission to access')
 
         except Profile.DoesNotExist:
-            raise exceptions.AuthenticationFailed('User does not exists (No profile)')
+            if request.path == '/api/profiles/register/' and request.method == 'POST':
+                return (None, None)
+            raise exceptions.AuthenticationFailed('User does not exists')
         except Exception as e:
             raise exceptions.AuthenticationFailed('Invalid user token')
 
