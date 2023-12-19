@@ -11,9 +11,17 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+ROOT_DIR = (
+    environ.Path(__file__) - 2
+)
+
+env = environ.Env()
+env.read_env(str(ROOT_DIR.path(".env")))
 
 
 # Quick-start development settings - unsuitable for production
@@ -38,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'profiles',
+    'storages',
+    'users',
     'posts',
 ]
 
@@ -72,6 +81,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backendlink.wsgi.application'
 
+AUTH_USER_MODEL = "users.User"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -135,3 +145,16 @@ REST_FRAMEWORK = {
 }
 
 
+AWS_ACCESS_KEY_ID = env.str('AWS_ACCESS_KEY_ID', '')
+AWS_SECRET_ACCESS_KEY = env.str('AWS_SECRET_ACCESS_KEY', '')
+AWS_STORAGE_BUCKET_NAME = env.str('AWS_STORAGE_BUCKET_NAME', '')
+AWS_S3_SIGNATURE_NAME = 's3v4',
+AWS_S3_REGION_NAME = env.str('AWS_S3_REGION_NAME')
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL =  None
+AWS_S3_VERITY = True
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_LOCATION = 'static'

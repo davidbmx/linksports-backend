@@ -1,6 +1,5 @@
 import uuid
 from django.db import models
-from django.contrib.auth.models import User
 
 from lib.models import MainModel
 
@@ -9,7 +8,7 @@ from lib.models import MainModel
 
 class Post(MainModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=150)
     videoUrl = models.TextField()
     tags = models.TextField()

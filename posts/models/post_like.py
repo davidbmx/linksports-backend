@@ -6,7 +6,7 @@ from .post import Post
 
 class PostLike(MainModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    user_like = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_like = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='post_like')
 
     def __str__(self):
         return self.user
