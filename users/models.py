@@ -40,3 +40,12 @@ class Device(MainModel):
 
     def __str__(self):
         return self.platform
+    
+class Following(MainModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_follow')
+    user_following = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_follower')
+
+    def __str__(self):
+        return f'{self.user.name} following by {self.user_following}'
+    
+

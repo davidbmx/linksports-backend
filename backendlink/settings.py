@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'rest_framework',
     'storages',
     'users',
@@ -62,6 +63,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'backendlink.urls'
+
+ASGI_APPLICATION = 'backendlink.routing.application'
 
 TEMPLATES = [
     {
@@ -141,7 +144,7 @@ REST_FRAMEWORK = {
         'authentication.authentication.FirebaseAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20
+    'PAGE_SIZE': 10
 }
 
 
