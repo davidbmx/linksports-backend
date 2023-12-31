@@ -39,6 +39,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     'storages',
     'users',
     'posts',
+    'configuration',
 ]
 
 MIDDLEWARE = [
@@ -64,7 +66,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'backendlink.urls'
 
-ASGI_APPLICATION = 'backendlink.routing.application'
+ASGI_APPLICATION = 'backendlink.asgi.application'
 
 TEMPLATES = [
     {
@@ -156,8 +158,22 @@ AWS_S3_REGION_NAME = env.str('AWS_S3_REGION_NAME')
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL =  None
 AWS_S3_VERITY = True
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
 AWS_LOCATION = 'static'
+
+AWS_S3_CUSTOM_DOMAIN = 'd2ahx00uqxhgnv.cloudfront.net'
+CLOUD_FRONT_DOMAIN = 'd2ahx00uqxhgnv.cloudfront.net'
+DEFAULT_FILE_STORAGE = 'backendlink.storage.MediaRootS3Boto3Storage'
+
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("192.168.100.5", 6379)],
+        },
+    },
+}

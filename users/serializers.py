@@ -9,6 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
     fans = serializers.SerializerMethodField('get_fans')
     posts = serializers.SerializerMethodField('get_posts')
     following = serializers.SerializerMethodField('get_following')
+    is_following = serializers.SerializerMethodField('get_is_following')
 
     class Meta:
         model = User
@@ -24,7 +25,8 @@ class UserSerializer(serializers.ModelSerializer):
             'active',
             'password',
             'username',
-            'avatar'
+            'avatar',
+            'is_following'
         ]
         read_only_fields = [
             'uid',
@@ -46,6 +48,10 @@ class UserSerializer(serializers.ModelSerializer):
     
     def get_posts(self, obj):
         return ab_num(obj.num_posts)
+    
+    def get_is_following(self, obj):
+        user = self.context['request'].user
+        return obj.user_follow.filter(user_following=user).exists()
 
     def create(self, validated_data):
         user = User.objects.create(

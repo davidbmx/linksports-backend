@@ -9,4 +9,4 @@ class PostBookmark(MainModel):
     user_bookmark = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='post_book')
 
     def __str__(self):
-        return self.user
+        return self.user.username

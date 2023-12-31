@@ -9,4 +9,4 @@ class PostLike(MainModel):
     user_like = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='post_like')
 
     def __str__(self):
-        return self.user
+        return self.user_like.username

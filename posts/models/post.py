@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 
 from lib.models import MainModel
+from lib.tools import ab_num
 
 # Create your models here.
 def upload_image(instance, filename):
@@ -32,3 +33,23 @@ class Post(MainModel):
 
     def __str__(self):
         return self.description
+    
+    def add_comment(self):
+        self.num_comments = models.F('num_comments') + 1
+        self.save()
+
+    def sub_comment(self):
+        self.num_comments = models.F('num_comments') - 1
+        self.save()
+
+    @property
+    def num_likes_formatted(self):
+        return ab_num(self.num_likes)
+    
+    @property
+    def num_views_formatted(self):
+        return ab_num(self.num_views)
+    
+    @property
+    def num_comments_formatted(self):
+        return ab_num(self.num_comments)

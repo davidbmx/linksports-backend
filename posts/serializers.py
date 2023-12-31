@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Post, PostImage, PostLike
+from .models import Post, PostImage, PostComment
 from users.models import User, Following
 
 class UserPostSerializer(serializers.ModelSerializer):
@@ -31,6 +31,9 @@ class PostSerializer(serializers.ModelSerializer):
     liked = serializers.SerializerMethodField('get_liked')
     following = serializers.SerializerMethodField('get_following')
     my_post = serializers.SerializerMethodField('get_my_post')
+    num_likes = serializers.SerializerMethodField('get_num_likes')
+    num_views = serializers.SerializerMethodField('get_num_views')
+    num_comments = serializers.SerializerMethodField('get_num_comments')
 
     class Meta:
         model = Post
@@ -62,3 +65,19 @@ class PostSerializer(serializers.ModelSerializer):
         if not user:
             return False
         return obj.user.id == user.id
+    
+    def get_num_likes(self, obj):
+        return obj.num_likes_formatted
+    
+    def get_num_views(self, obj):
+        return obj.num_views_formatted
+    
+    def get_num_comments(self, obj):
+        return obj.num_comments_formatted
+    
+class PostCommentSerializer(serializers.ModelSerializer):
+    user = UserPostSerializer(read_only=True, many=False)
+    class Meta:
+        model = PostComment
+        fields = '__all__'
+        read_only_fields = ['post', 'user']

@@ -10,4 +10,4 @@ class PostComment(MainModel):
     comment = models.TextField()
 
     def __str__(self):
-        return self.user
+        return self.user.username
