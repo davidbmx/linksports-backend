@@ -32,7 +32,7 @@ class Post(MainModel):
     visibility = models.CharField(max_length=10, choices=VISIBILITY_CHOICE, default=VISIBILITY_CHOICE[0][0])
 
     def __str__(self):
-        return self.description
+        return str(self.description)
     
     def add_comment(self):
         self.num_comments = models.F('num_comments') + 1

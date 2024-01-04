@@ -6,7 +6,7 @@ from .models import Post, PostImage
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'description', 'video',]
+    list_display = ['id', 'user', 'description', 'video', 'type_post']
 
 @admin.register(PostImage)
 class PostImageAdmin(admin.ModelAdmin):
