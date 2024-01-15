@@ -51,6 +51,8 @@ class UserSerializer(serializers.ModelSerializer):
     
     def get_is_following(self, obj):
         user = self.context['request'].user
+        if not user.is_authenticated:
+            return False
         return obj.user_follow.filter(user_following=user).exists()
 
     def create(self, validated_data):
@@ -62,7 +64,6 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
 
         try:
-            print(validated_data['password'])
             userFirebase = auth.create_user(
                 email=user.email,
                 email_verified=True,

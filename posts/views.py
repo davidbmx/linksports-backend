@@ -33,11 +33,11 @@ class PostViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.Gen
         post = self.get_object()
         serializer = PostSerializer(post, context=self.get_serializer_context(), many=False)
         actions = SocketAction('user_actions')
-        actions.emit({
-            'type': 'like_unlike_post',
-            'post_id': serializer.data.get('id'),
-            'num_likes': serializer.data.get('num_likes'),
-        })
+        # actions.emit({
+        #     'type': 'like_unlike_post',
+        #     'post_id': serializer.data.get('id'),
+        #     'num_likes': serializer.data.get('num_likes'),
+        # })
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class PostUserViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
