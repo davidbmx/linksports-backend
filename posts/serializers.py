@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Post, PostImage, PostComment
+from .models import Post, Post, PostComment, PostAsset
 from users.models import User, Following
 
 class UserPostSerializer(serializers.ModelSerializer):
@@ -14,9 +14,9 @@ class UserPostSerializer(serializers.ModelSerializer):
         ]
 
 
-class ImageSerializer(serializers.ModelSerializer):
+class AssetSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PostImage
+        model = PostAsset
         fields = '__all__'
         read_only_fields = ['post']
 
@@ -26,7 +26,7 @@ class VideoSerializer(serializers.ModelSerializer):
         fields = ['video', 'video_thumb',]
 
 class PostSerializer(serializers.ModelSerializer):
-    post_images = ImageSerializer(read_only=True, many=True)
+    post_assets = AssetSerializer(read_only=True, many=True)
     user = UserPostSerializer(read_only=True, many=False)
     liked = serializers.SerializerMethodField('get_liked')
     following = serializers.SerializerMethodField('get_following')

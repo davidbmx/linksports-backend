@@ -6,7 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser
 
-from .serializers import PostSerializer, ImageSerializer, VideoSerializer, PostCommentSerializer
+from .serializers import PostSerializer, AssetSerializer, VideoSerializer, PostCommentSerializer
 from .models import Post, PostLike, PostComment
 from users.models import User
 from lib.socket_layer import SocketAction
@@ -74,20 +74,13 @@ class MyPostViewSet(
         user.save()
 
     @action(detail=True, methods=['post'], parser_classes=[MultiPartParser])
-    def upload_image(self, request, pk=None):
+    def upload_asset(self, request, pk=None):
         post = self.get_object()
-        serializer = ImageSerializer(data=request.data, context=self.get_serializer_context())
+        serializer = AssetSerializer(data=request.data, context=self.get_serializer_context())
         serializer.is_valid(raise_exception=True)
         serializer.save(post=post)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
-    @action(detail=True, methods=['post'], parser_classes=[MultiPartParser])
-    def upload_video(self, request, pk=None):
-        post = self.get_object()
-        serializer = VideoSerializer(data=request.data, instance=post, context=self.get_serializer_context())
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @action(detail=True, methods=['get'], parser_classes=[MultiPartParser])
     def comments(self, request, pk=None):

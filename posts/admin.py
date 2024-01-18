@@ -1,13 +1,13 @@
 from django.contrib import admin
-from .models import Post, PostImage
+from .models import Post, PostAsset
 
 # Register your models here.
 
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'description', 'video', 'type_post']
+    list_display = ['id', 'user', 'description', 'type_post']
 
-@admin.register(PostImage)
+@admin.register(PostAsset)
 class PostImageAdmin(admin.ModelAdmin):
-    list_display = ['id', 'image', 'width', 'height',]
+    list_display = ['id', 'file', 'type_file', 'width', 'height',]

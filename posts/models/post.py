@@ -21,8 +21,6 @@ class Post(MainModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='posts')
     description = models.CharField(max_length=200, blank=True, null=True)
-    video = models.FileField(upload_to=upload_image, blank=True, null=True)
-    video_thumb = models.FileField(upload_to=upload_image, blank=True, null=True)
     tags = models.TextField()
     sport = models.CharField(max_length=100)
     num_likes = models.IntegerField(default=0)
